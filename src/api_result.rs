@@ -58,7 +58,7 @@ impl<T, M> ApiPayload<T, M> {
     }
 
     pub fn matching_rules(&self) -> Option<&[MatchingRule]> {
-        self.matching_rules.as_ref()
+        self.matching_rules.as_deref()
     }
     
     pub fn into_matching_rules(self) -> Option<Vec<MatchingRule>> {
