@@ -12,6 +12,12 @@ use std::{fmt, ops};
 use url::Url;
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
+pub struct MatchingRule {
+    pub id: String,
+    pub tag: String,
+}
+
+#[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct ApiPayload<T, M> {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub data: Option<T>,
@@ -21,6 +27,8 @@ pub struct ApiPayload<T, M> {
     pub includes: Option<Expansions>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub errors: Option<Vec<ApiError>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub matching_rules: Option<Vec<MatchingRule>>,
 }
 
 impl<T, M> ApiPayload<T, M> {
@@ -47,6 +55,14 @@ impl<T, M> ApiPayload<T, M> {
     }
     pub fn into_errors(self) -> Option<Vec<ApiError>> {
         self.errors
+    }
+
+    pub fn matching_rules(&self) -> Option<&[MatchingRule]> {
+        self.matching_rules.as_ref()
+    }
+    
+    pub fn into_matching_rules(self) -> Option<Vec<MatchingRule>> {
+        self.matching_rules
     }
 }
 
